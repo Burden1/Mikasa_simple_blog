@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ blog.title }}</title>
+    <style type="text/css">
+        .blog {
+            padding: 20px 0px;
+        }
+
+        .blog .info span {
+            padding-right: 10px;
+
+        }
+
+        .blog .summary {
+            padding-top: 20px;
+        }
+
+        body {
+            color: #efd;
+            background: #8d8a8a;
+            padding: 12px 5em;
+            margin: 7px;
+        }
+
+        h1 {
+            margin-top: -10px;
+            padding: 2em;
+            background: #4e583b;
+            color: #eeffdd;
+        }
+
+        h2 {
+            color: #4e583b;
+        {#border-top: 1px dotted #fff;#} margin-top: 2em;
+            padding-top: 15px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        span {
+            font-size: 18px;
+            line-height: 2em;
+        }
+
+        p {
+            text-indent: 2em
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="title" align="center">
+        <a href="#"><h1>{{ blog.title }}</h1></a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="blog">
+        <div class="info" align="center">
+            <span class="category" style="color: #eeccad;" border="10px">{{ blog.category.name }}</span>
+            <span class="author" style="color: #2964af;">{{ blog.author }}</span>
+            <span class="pub" style="color: #90d56b">{{ blog.pub }}</span>
+        </div>
+        <p class="summary">
+            {{ blog.content }}
+        </p>
+        <div class="comment">
+            <div class="comment-diaplay" style="padding-top: 1cm;">
+                <h3>评论</h3>
+                {% for comment in comments %}
+                    <div class="comment-field" style="padding-top: 10px; color: #49491a">
+                        {{ comment.name }}说：{{ comment.content }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="comment-post" style="padding-top: 20px ;">
+                <h3>提交评论</h3>
+                <form action="{% url 'blog_get_detail' blog.id %}" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="input-field" style="padding-top: 10px;">
+                            {{ field.label }}：{{ field }}
+                        </div>
+                        <div class="error" style="color: #ff0000;">
+                            {{ field.errors }}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" style="margin-top:20px ">提交</button>
+                    <button type="reset" style="margin-top:20px ">重置</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
